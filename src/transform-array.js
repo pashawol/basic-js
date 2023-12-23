@@ -18,6 +18,14 @@ function transform(/* arr */) {
   // remove line with error and write your code here
 }
 
+console.log(transform([1, 2, 3, '--double-next', 1337, '--discard-prev', 4, 5]));
+console.log(transform([1, 2, 3, '--double-next', 1337, '--double-prev', 4, 5]));
+// console.log(transform([1, 2, 3, '--discard-prev', 4, 5]));
+// console.log(transform([1, 2, 3, '--double-prev', 4, 5]));
+// console.log(transform([1, 2, 3, '--double-next', 4, 5]));
+// console.log(transform(['--double-next', 2]));
+// console.log(transform([ 1, 2 ]));
+
 module.exports = {
   transform
 };
