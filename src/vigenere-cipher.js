@@ -20,14 +20,62 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  constructor (type = true) {
+    this.alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    return  this.type = type
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(mess, key) {
+    const alphabet = this.alphabet;
+    if (!mess || !key) throw new Error ('Incorrect arguments!');
+
+    let result = '';
+    let x = 0;
+
+    for (let i = 0; i < mess.length; i++) {
+      const el = mess[i];
+      if( x > (key.length - 1)) {x = 0};
+
+      if(!alphabet.includes(el.toUpperCase())) {
+        result += el
+      }
+      else{
+        result += alphabet[(alphabet.indexOf(el.toUpperCase()) + alphabet.indexOf(key[x].toUpperCase())) % 26 ]
+        x++
+      }
+
+    }
+    return this.type ? result : result.split("").reverse().join('');
   }
+
+  decrypt(mess, key) {
+    const alphabet = this.alphabet;
+    if (!mess || !key) {throw new Error ('Incorrect arguments!')};
+
+    let result = '';
+    let x = 0;
+
+    for (let i = 0; i < mess.length; i++) {
+      const el = mess[i];
+      if( x > (key.length - 1)) {x = 0};
+      
+      if(!alphabet.includes(el.toUpperCase())) {
+        result += el
+      }
+      else{
+        if((alphabet.indexOf(el.toUpperCase()) - alphabet.indexOf(key[x].toUpperCase()) >= 0)) {
+          result += alphabet[(alphabet.indexOf(el.toUpperCase()) - alphabet.indexOf(key[x].toUpperCase()))]
+          x++
+        }
+        else{ 
+          result += alphabet[alphabet.indexOf(el.toUpperCase()) - alphabet.indexOf(key[x].toUpperCase()) + 26]
+          x++
+        }
+      }
+    }
+    return this.type ? result : result.split("").reverse().join(''); 
+  }
+
 }
 
 module.exports = {

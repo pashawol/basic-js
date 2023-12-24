@@ -13,18 +13,58 @@ const { NotImplementedError } = require('../extensions/index.js');
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-function transform(/* arr */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
-}
 
-// console.log(transform([1, 2, 3, '--double-next', 1337, '--discard-prev', 4, 5]));
-// console.log(transform([1, 2, 3, '--double-next', 1337, '--double-prev', 4, 5]));
-// console.log(transform([1, 2, 3, '--discard-prev', 4, 5]));
-// console.log(transform([1, 2, 3, '--double-prev', 4, 5]));
-// console.log(transform([1, 2, 3, '--double-next', 4, 5]));
-// console.log(transform(['--double-next', 2]));
-// console.log(transform([ 1, 2 ]));
+function transform(arr) {
+  const option = [
+    '--discard-next',
+    '--discard-prev',
+    '--double-next',
+    '--double-prev',
+  ]
+  if( (!Array.isArray(arr))) throw new Error("'arr' parameter must be an instance of the Array!")
+  if(!arr.length) return [];
+  let result =  [];
+  let copy =  [];
+  arr.forEach(el => copy.push(el))
+  for (let i = 0; i < copy.length; i++) {
+    const ell = copy[i]; 
+    if(option.includes(ell)) {
+      
+      if(ell === option[0] && i < copy.length - 1) {
+        copy[i + 1] = ''
+        copy[i] = ''
+        result.push(copy[i])
+        console.log(ell);
+      }
+
+      if(ell === option[1] && i > 0 ) {
+        result[i - 1] = ''
+        
+        copy[i - 1] = ''
+        copy[i] = ''
+        
+        result.push(copy[i])
+        console.log(ell);
+      }
+      
+      if(ell === option[2]  && i < copy.length - 1) {
+          copy[i] = copy[i + 1]
+          result.push(copy[i])
+        }
+        if(ell === option[3]  && i > 0) {
+          copy[i] = copy[i - 1]
+          result.push(copy[i])
+        }
+      }
+      
+    else{
+      result.push(copy[i])
+    }
+  }
+
+  return result.filter(el => el !== "")
+
+}
 
 module.exports = {
   transform
